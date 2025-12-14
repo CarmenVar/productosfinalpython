@@ -91,43 +91,195 @@ def ver_productos():
 # ✏️ Actualizar producto por ID
 # ========================================
 def actualizar_producto():
-    """Actualiza los datos de un producto existente usando su ID"""
     print(Fore.CYAN + "\n[Actualizar producto]")
-    # TODO: Pedir ID, validar si existe
-    # TODO: Pedir nuevos valores (uno o todos)
-    # TODO: UPDATE productos SET ... WHERE id = ?
-    pass
+
+    try:
+        con = conectar()
+        cursor = con.cursor()
+
+        # Mostrar productos existentes
+        cursor.execute("SELECT * FROM productos")
+        productos = cursor.fetchall()
+
+        if not productos:
+            print(Fore.LIGHTRED_EX + "No hay productos para actualizar.")
+            return
+
+        print(Fore.YELLOW + "\nProductos disponibles:")
+        for p in productos:
+            print(Fore.GREEN + f"{p[0]} | {p[1]} | {p[2]} | {p[3]} | ${p[4]:.2f}")
+
+        # Pedir ID del producto a actualizar
+        id_producto = input(Fore.CYAN + "\nIngrese el ID del producto a actualizar: ").strip()
+
+        if not id_producto.isdigit():
+            print(Fore.RED + "El ID debe ser un número.")
+            return
+
+        cursor.execute("SELECT * FROM productos WHERE id = ?", (id_producto,))
+        producto = cursor.fetchone()
+
+        if not producto:
+            print(Fore.RED + "No se encontró un producto con ese ID.")
+            return
+
+        # Mostrar el producto actual
+        print(Fore.YELLOW + f"\nProducto actual:")
+        print(Fore.GREEN + f"{producto[0]} | {producto[1]} | {producto[2]} | {producto[3]} | ${producto[4]:.2f}")
+
+        # Pedir nuevos valores (dejar vacío para no cambiar)
+        nuevo_nombre = input("Nuevo nombre (dejar vacío para mantener): ").strip()
+        nueva_categoria = input("Nueva categoría (dejar vacío para mantener): ").strip()
+        nueva_cantidad = input("Nueva cantidad (dejar vacío para mantener): ").strip()
+        nuevo_precio = input("Nuevo precio (dejar vacío para mantener): ").strip()
+
+        # Si el campo está vacío, usamos el valor original
+        nombre_final = nuevo_nombre if nuevo_nombre else producto[1]
+        categoria_final = nueva_categoria if nueva_categoria else producto[2]
+
+        try:
+            cantidad_final = int(nueva_cantidad) if nueva_cantidad else producto[3]
+            precio_final = float(nuevo_precio) if nuevo_precio else producto[4]
+        except ValueError:
+            print(Fore.RED + "Cantidad debe ser un número entero y precio un número decimal.")
+            return
+
+        if cantidad_final < 0 or precio_final < 0:
+            print(Fore.RED + "Cantidad y precio deben ser ≥ 0.")
+            return
+
+        # Actualizar en la base
+        cursor.execute("""
+            UPDATE productos
+            SET nombre = ?, categoria = ?, cantidad = ?, precio = ?
+            WHERE id = ?
+        """, (nombre_final, categoria_final, cantidad_final, precio_final, id_producto))
+
+        con.commit()
+        print(Fore.GREEN + "Producto actualizado correctamente.")
+
+    except Exception as e:
+        print(Fore.RED + f"Error: {e}")
+    finally:
+        con.close()
 
 
 # ========================================
 # 🗑️ Eliminar producto por ID
 # ========================================
 def eliminar_producto():
-    """Elimina un producto por su ID, con confirmación"""
     print(Fore.CYAN + "\n[Eliminar producto]")
-    # TODO: Mostrar productos, pedir ID, confirmar antes de borrar
-    # TODO: DELETE FROM productos WHERE id = ?
-    pass
+
+    try:
+        con = conectar()
+        cursor = con.cursor()
+
+        # Mostrar todos los productos
+        cursor.execute("SELECT * FROM productos")
+        productos = cursor.fetchall()
+
+        if not productos:
+            print(Fore.LIGHTRED_EX + "No hay productos para eliminar.")
+            return
+
+        print(Fore.YELLOW + "\nProductos disponibles:")
+        for p in productos:
+            print(Fore.GREEN + f"{p[0]} | {p[1]} | {p[2]} | {p[3]} | ${p[4]:.2f}")
+
+        # Pedir ID del producto a eliminar
+        id_eliminar = input(Fore.CYAN + "\nIngrese el ID del producto a eliminar: ").strip()
+
+        if not id_eliminar.isdigit():
+            print(Fore.RED + "El ID debe ser un número.")
+            return
+
+        cursor.execute("SELECT * FROM productos WHERE id = ?", (id_eliminar,))
+        producto = cursor.fetchone()
+
+        if not producto:
+            print(Fore.RED + "No se encontró un producto con ese ID.")
+            return
+
+        # Confirmación
+        confirmacion = input(Fore.LIGHTYELLOW_EX + f"¿Está seguro que desea eliminar el producto '{producto[1]}'? (s/n): ").strip().lower()
+
+        if confirmacion != 's':
+            print(Fore.YELLOW + "Operación cancelada.")
+            return
+
+        # Eliminar
+        cursor.execute("DELETE FROM productos WHERE id = ?", (id_eliminar,))
+        con.commit()
+        print(Fore.GREEN + "Producto eliminado correctamente.")
+
+    except Exception as e:
+        print(Fore.RED + f"Error al eliminar producto: {e}")
+    finally:
+        con.close()
+
 
 
 # ========================================
 # 🔍 Buscar producto por ID
 # ========================================
 def buscar_producto():
-    """Busca y muestra un producto por su ID"""
     print(Fore.CYAN + "\n[Buscar producto por ID]")
-    # TODO: Pedir ID, buscar en la base y mostrar si existe
-    pass
+
+    id_buscar = input("Ingrese el ID del producto: ").strip()
+
+    if not id_buscar.isdigit():
+        print(Fore.RED + "El ID debe ser un número.")
+        return
+
+    try:
+        con = conectar()
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM productos WHERE id = ?", (id_buscar,))
+        producto = cursor.fetchone()
+
+        if producto:
+            print(Fore.YELLOW + "\nProducto encontrado:")
+            print(Fore.GREEN + f"{producto[0]} | {producto[1]} | {producto[2]} | {producto[3]} | ${producto[4]:.2f}")
+        else:
+            print(Fore.LIGHTRED_EX + "No se encontró un producto con ese ID.")
+
+    except Exception as e:
+        print(Fore.RED + f"Error al buscar el producto: {e}")
+    finally:
+        con.close()
 
 
 # ========================================
 # 📊 Reporte de productos con poca cantidad
 # ========================================
 def reporte_bajo_stock():
-    """Muestra productos con cantidad igual o inferior al límite ingresado"""
-    print(Fore.CYAN + "\n[Reporte de bajo stock]")
-    # TODO: Pedir límite (ej: 5) y mostrar productos con cantidad <= ese valor
-    pass
+    print(Fore.CYAN + "\n[Reporte de productos con bajo stock]")
+
+    limite = input("Mostrar productos con cantidad menor o igual a: ").strip()
+
+    if not limite.isdigit():
+        print(Fore.RED + "El valor debe ser un número entero.")
+        return
+
+    limite = int(limite)
+
+    try:
+        con = conectar()
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM productos WHERE cantidad <= ?", (limite,))
+        productos = cursor.fetchall()
+
+        if productos:
+            print(Fore.YELLOW + f"\nProductos con stock ≤ {limite}:")
+            for p in productos:
+                print(Fore.GREEN + f"{p[0]} | {p[1]} | {p[2]} | {p[3]} | ${p[4]:.2f}")
+        else:
+            print(Fore.LIGHTRED_EX + "No hay productos con esa condición.")
+
+    except Exception as e:
+        print(Fore.RED + f"Error al generar el reporte: {e}")
+    finally:
+        con.close()
 
 
 # ========================================

@@ -1,0 +1,11 @@
+nombre,categoria,cantidad,precio
+Teclado,Periféricos,15,1200.50
+Mouse,Periféricos,30,700.00
+Monitor,Periféricos,10,23000.99
+Notebook,Computadoras,5,198000.00
+Impresora,Impresoras,2,35000.00
+Cable HDMI,Accesorios,50,500.00
+Webcam,Periféricos,8,9800.00
+Auriculares,Audio,20,7500.00
+Disco Externo,Almacenamiento,6,45000.00
+Memoria USB,Almacenamiento,100,1500.00
