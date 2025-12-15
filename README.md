@@ -46,5 +46,7 @@ finalprojectpython/
 
 Proyecto final realizado como parte del curso de Introducción a la Programación con Python.
 Autor/a: Carmen Var
+Si deseas ver el proyecto en GitHub : 
+https://github.com/CarmenVar/productosfinalpython.git
 ---
 
