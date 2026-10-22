@@ -12,9 +12,10 @@
 </head>
 <body>
     <h1>📦 Lista de Productos</h1>
+    <a href="/registrar" style="margin-left: 10%; display: inline-block; margin-top: 20px; text-decoration: none; background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px;">➕ Agregar nuevo producto</a>
     <table>
         <tr>
-            <th>ID</th><th>Nombre</th><th>Categoría</th><th>Cantidad</th><th>Precio</th>
+            <th>ID</th><th>Nombre</th><th>Categoría</th><th>Cantidad</th><th>Precio</th><th>Acciones</th>
         </tr>
         {% for p in productos %}
         <tr>
@@ -23,6 +24,10 @@
             <td>{{ p[2] }}</td>
             <td>{{ p[3] }}</td>
             <td>${{ "%.2f"|format(p[4]) }}</td>
+            <td>
+                <!-- 2. Botón de borrar con confirmación para cada fila -->
+                <a href="/eliminar/{{ p[0] }}" style="color: #d9534f; text-decoration: none; font-weight: bold;" onclick="return confirm('¿Estás segura de eliminar este producto?');">🗑️ Borrar</a>
+            </td>
         </tr>
         {% endfor %}
     </table>
