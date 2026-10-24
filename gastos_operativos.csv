@@ -1,0 +1,11 @@
+﻿id_gasto,id_venta,tipo_gasto,monto,descripcion
+1,1,Comisión Plataforma,14300.0,Comisión Mercado Libre (13%)
+2,1,Impuestos,3850.0,Ingresos Brutos (3.5%)
+3,1,Logística / Envíos,4500.0,Envío a domicilio
+4,2,Comisión Pasarela,1900.0,Comisión pagos online (5%)
+5,2,Impuestos,1330.0,Ingresos Brutos (3.5%)
+6,3,Comisión Plataforma,10920.0,Comisión Mercado Libre (13%)
+7,3,Impuestos,2940.0,Ingresos Brutos (3.5%)
+8,3,Logística / Envíos,4500.0,Envío a domicilio
+9,4,Comisión Pasarela,3500.0,Comisión pagos online (10%)
+10,4,Impuestos,2450.0,Ingresos Brutos (3.5%)

@@ -1,38 +1,18 @@
 import sqlite3
-import csv
+import pandas as pd
 
-def conectar():
-    return sqlite3.connect("productos.db")
+# Conectar a la base de datos
+conexion = sqlite3.connect('productos.db')
 
-def importar_desde_csv(nombre_archivo):
-    con = conectar()
-    cursor = con.cursor()
+# Exportar cada tabla y vista a CSV
+tablas = ['productos', 'ventas', 'gastos_operativos', 'vista_rentabilidad_neta']
 
-    with open(nombre_archivo, newline='', encoding='utf-8') as archivo_csv:
-        lector = csv.reader(archivo_csv)
-        next(lector)  # Salta el encabezado
+for tabla in tablas:
+    try:
+        df = pd.read_sql_query(f"SELECT * FROM {tabla}", conexion)
+        df.to_csv(f"{tabla}.csv", index=False, encoding='utf-8-sig')
+        print(f"Exportado con éxito: {tabla}.csv")
+    except Exception as e:
+        print(f"No se pudo exportar {tabla}: {e}")
 
-        for fila in lector:
-            nombre, categoria, cantidad, precio = fila
-
-            try:
-                cantidad = int(cantidad)
-                precio = float(precio)
-
-                if cantidad < 0 or precio < 0:
-                    print(f"⚠️ Producto inválido (valores negativos): {fila}")
-                    continue
-
-                cursor.execute("""
-                    INSERT INTO productos (nombre, categoria, cantidad, precio)
-                    VALUES (?, ?, ?, ?)
-                """, (nombre.strip(), categoria.strip(), cantidad, precio))
-            except Exception as e:
-                print(f"❌ Error en fila {fila}: {e}")
-
-    con.commit()
-    con.close()
-    print("📥 Importación finalizada.")
-
-# Ejecutar importación
-importar_desde_csv("productos.csv")  # Cambiar si el nombre del archivo es distinto
+conexion.close()

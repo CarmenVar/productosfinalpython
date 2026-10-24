@@ -1,11 +1,5 @@
-nombre,categoria,cantidad,precio
-Teclado,Periféricos,15,1200.50
-Mouse,Periféricos,30,700.00
-Monitor,Periféricos,10,23000.99
-Notebook,Computadoras,5,198000.00
-Impresora,Impresoras,2,35000.00
-Cable HDMI,Accesorios,50,500.00
-Webcam,Periféricos,8,9800.00
-Auriculares,Audio,20,7500.00
-Disco Externo,Almacenamiento,6,45000.00
-Memoria USB,Almacenamiento,100,1500.00
+﻿id_producto,nombre,sku,categoria,precio_costo_ars,precio_venta_sugerido
+1,Smartwatch KronosBit,KB-01,Wearables,25000.0,55000.0
+2,Afeitadora Eléctrica Pro,AF-02,Cuidado Personal,18000.0,38000.0
+3,Set Pijama Urbano,PJ-03,Indumentaria,12000.0,28000.0
+4,Auriculares Inalámbricos TWS,AU-04,Audio,15000.0,35000.0

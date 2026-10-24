@@ -1,0 +1,5 @@
+﻿id_venta,fecha,id_producto,cantidad_vendida,precio_venta_final,canal_venta
+1,2026-06-01,1,2,55000.0,Mercado Libre
+2,2026-06-02,2,1,38000.0,Tienda Propia
+3,2026-06-03,3,3,28000.0,Mercado Libre
+4,2026-06-04,4,2,35000.0,Tienda Propia

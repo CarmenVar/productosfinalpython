@@ -1,0 +1,5 @@
+﻿id_venta,fecha,producto,categoria,canal_venta,cantidad_vendida,ingreso_bruto,costo_mercaderia,total_gastos_e_impuestos,ganancia_neta
+1,2026-06-01,Smartwatch KronosBit,Wearables,Mercado Libre,2,110000.0,50000.0,22650.0,37350.0
+2,2026-06-02,Afeitadora Eléctrica Pro,Cuidado Personal,Tienda Propia,1,38000.0,18000.0,3230.0,16770.0
+3,2026-06-03,Set Pijama Urbano,Indumentaria,Mercado Libre,3,84000.0,36000.0,18360.0,29640.0
+4,2026-06-04,Auriculares Inalámbricos TWS,Audio,Tienda Propia,2,70000.0,30000.0,5950.0,34050.0
